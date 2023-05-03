@@ -22,6 +22,8 @@ export default {
 };
 </script>
 <template>
-    <div class>APP</div>
+    <div class>
+
+    </div>
 </template>
 <style scoped lang='sass'></style>
