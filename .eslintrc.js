@@ -11,7 +11,14 @@ module.exports = {
     parser: '@babel/eslint-parser',
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-console': 2,
+    'no-use-before-define': 'off',
+    'vue/component-tags-order': ['error', {
+      order: ['script', 'template', 'style'],
+    }],
+    'vue/require-default-prop': 2,
+    'vue/require-prop-types': 2,
+    'vue/prop-name-casing': ['error', 'camelCase'],
+    'vue/name-property-casing': ['error', 'PascalCase'],
   },
 };
