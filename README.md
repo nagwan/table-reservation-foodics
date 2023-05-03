@@ -1,1 +1,1 @@
-# table-reservation-fodics
+# table-reservation-foodics
