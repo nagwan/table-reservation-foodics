@@ -1,0 +1,42 @@
+@font-face
+    font-family: primary-black
+    src: url("~@/assets/fonts/Montserrat/Montserrat-Black.ttf")
+@font-face
+    font-family: primary-extra-bold
+    src: url("~@/assets/fonts/Montserrat/Montserrat-ExtraBold.ttf")
+@font-face
+    font-family: primary-bold
+    src: url("~@/assets/fonts/Montserrat/Montserrat-Bold.ttf")
+@font-face
+    font-family: primary-semi-bold
+    src: url("~@/assets/fonts/Montserrat/Montserrat-SemiBold.ttf")
+@font-face
+    font-family: primary-medium
+    src: url("~@/assets/fonts/Montserrat/Montserrat-Medium.ttf")
+@font-face
+    font-family: primary-regular
+    src: url("~@/assets/fonts/Montserrat/Montserrat-Regular.ttf")
+@font-face
+    font-family: primary-light
+    src: url("~@/assets/fonts/Montserrat/Montserrat-Light.ttf")
+@font-face
+    font-family: primary-extra-light
+    src: url("~@/assets/fonts/Montserrat/Montserrat-ExtraLight.ttf")
+@font-face
+    font-family: primary-thin
+    src: url("~@/assets/fonts/Montserrat/Montserrat-Thin.ttf")
+
+@mixin generateFontSizeClasses($num)
+    @for $i from 1 through $num
+    @if $num > 0 && $num > 10
+        $num: $num - 2
+        .fs-#{$num}
+            font-size: #{$num}px
+
+@include generateFontSizeClasses(100)
+
+$fontWeights: "black", "extra-bold", "bold", "semi-bold", "medium", "regular", "light", "extra-light", "thin"
+
+@each $weight in fontWeights
+    .text-#{weight}
+        font-family: primary-#{weight}
