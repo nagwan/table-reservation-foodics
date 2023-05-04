@@ -4,6 +4,7 @@ import BranchCard from './BranchCard.vue';
 import BranchesFilter from './BranchesFilter.vue';
 import BranchesSettings from './BranchesSettings.vue';
 import AddBranch from './AddBranch.vue';
+import Loader from './Loader.vue';
 
 export default {
   components: {
@@ -11,6 +12,7 @@ export default {
     BranchesFilter,
     BranchesSettings,
     AddBranch,
+    Loader,
   },
   props: {},
   data() {
@@ -18,6 +20,7 @@ export default {
       branches: [],
       pagination: {},
       showForm: false,
+      isLoading: false,
       selectedFilterValue: 'accepts_reservations',
     };
   },
@@ -45,10 +48,11 @@ export default {
 
   methods: {
     async fetchBranches() {
+      this.isLoading = true;
       const data = await API({
         url: 'branches?include[0]=sections&include[1]=sections.tables',
       });
-
+      this.isLoading = false;
       this.branches = data.data;
       this.pagination = data.meta;
     },
@@ -75,11 +79,13 @@ export default {
              */
       await API({
         url: `branches/${branchId}`,
-        method: 'PUT',
+        method: 'put',
         data: {
           accepts_reservations: value,
         },
       });
+
+      this.$root.toggleAlert({ type: 'success', message: 'test' });
 
       if (refetch) {
         this.fetchBranches();
@@ -141,7 +147,8 @@ export default {
                 />
             </div>
         </div>
-        <div class="w-100 d-flex flex-wrap">
+        <loader v-if="isLoading" />
+        <div class="w-100 d-flex flex-wrap" v-else>
             <div
                 class="col-12 col-md-4 m-y-20"
                 v-for="branch in getBranches"

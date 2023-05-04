@@ -60,17 +60,15 @@ export default {
       this.$emit('edit-branch', { id: this.branch.id });
     },
 
-    disableBranchReservations() {
-      this.$emit('fetch-branches');
-
-      this.togglePopup();
-    },
-
     updateReservation() {
       this.$emit('update-reservation', {
         branchId: this.branch.id,
         value: !this.branch.accepts_reservations,
       });
+
+      if (this.enableConfirmation) {
+        this.togglePopup();
+      }
     },
 
     togglePopup() {
@@ -145,9 +143,9 @@ export default {
 </template>
 <style  lang='sass'>
 .branch-card
-    height: 250px
-    position: relative
+  height: 250px
+  position: relative
 .branch-actions
-    position: relative
-    bottom: 0
+  position: relative
+  bottom: 0
 </style>

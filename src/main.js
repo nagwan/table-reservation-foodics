@@ -20,5 +20,21 @@ Vue.directive('click-outside', {
 });
 
 new Vue({
+  data: {
+    showAlert: false,
+    alertType: '',
+    alertMessage: '',
+  },
+
+  methods: {
+    toggleAlert({ type, message, timer = 3000 }) {
+      this.showAlert = true;
+      this.alertType = type;
+      this.alertMessage = message;
+      setTimeout(() => {
+        this.showAlert = false;
+      }, timer);
+    },
+  },
   render: (h) => h(App),
 }).$mount('#app');

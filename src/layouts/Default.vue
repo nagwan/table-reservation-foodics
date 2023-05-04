@@ -24,9 +24,7 @@ export default {
                 <div
                     class="w-100 d-flex flex-column align-items-center justify-content-center hero-text-container"
                 >
-                    <h1 class="fs-40 text-white text-primary-bold">
-                        Welcome
-                    </h1>
+                    <h1 class="fs-40 text-white text-primary-bold">Welcome</h1>
                     <h2 class="m-y-30 fs-30 text-white text-primary-bold">
                         Branches Reservations
                     </h2>
