@@ -35,8 +35,8 @@
 
 @include generateFontSizeClasses(100)
 
-$fontWeights: "black", "extra-bold", "bold", "semi-bold", "medium", "regular", "light", "extra-light", "thin"
+$fontWeights: black, extra-bold, bold, semi-bold, medium, regular, light, extra-light, thin
 
-@each $weight in fontWeights
-    .text-#{weight}
-        font-family: primary-#{weight}
+@each $weight in $fontWeights
+    .text-primary-#{$weight}
+        font-family: primary-#{$weight} !important

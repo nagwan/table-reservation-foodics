@@ -15,15 +15,14 @@ export default {
       // const data = await API({
       //     url: "branches?include[0]=sections&include[1]=sections.tables",
       // });
-
       // console.log(data);
     },
   },
 };
 </script>
 <template>
-    <div class>
+    <Layout>
 
-    </div>
+    </Layout>
 </template>
 <style scoped lang='sass'></style>
