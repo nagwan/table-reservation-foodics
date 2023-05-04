@@ -22,7 +22,9 @@ export default {
 </script>
 <template>
     <Layout>
-
+     Branches List
     </Layout>
 </template>
-<style scoped lang='sass'></style>
+<style scoped lang='sass'>
+
+</style>
