@@ -1,4 +1,5 @@
 <script>
+import API from '@/utils/API';
 import BranchCard from './BranchCard.vue';
 import BranchesFilter from './BranchesFilter.vue';
 import BranchesSettings from './BranchesSettings.vue';
@@ -9,14 +10,11 @@ export default {
     BranchesFilter,
     BranchesSettings,
   },
-  props: {
-    branches: {
-      type: Array,
-      required: true,
-    },
-  },
+  props: {},
   data() {
     return {
+      branches: [],
+      pagination: {},
       selectedFilterValue: 'accepts_reservations',
     };
   },
@@ -37,7 +35,21 @@ export default {
       return value;
     },
   },
+
+  mounted() {
+    this.fetchBranches();
+  },
+
   methods: {
+    async fetchBranches() {
+      const data = await API({
+        url: 'branches?include[0]=sections&include[1]=sections.tables',
+      });
+
+      this.branches = data.data;
+      this.pagination = data.meta;
+    },
+
     updateBranchesFilterValue({ value }) {
       this.selectedFilterValue = value;
     },
@@ -46,9 +58,14 @@ export default {
 </script>
 <template>
     <div class="w-100">
-        <div class="m-y-20 d-flex flex-wrap align-items-center justify-content-between">
+        <div
+            class="m-y-20 d-flex flex-wrap align-items-center justify-content-between"
+        >
             <div class="col-auto">
-                <BranchesFilter :value="selectedFilterValue" @update-value="updateBranchesFilterValue"/>
+                <BranchesFilter
+                    :value="selectedFilterValue"
+                    @update-value="updateBranchesFilterValue"
+                />
             </div>
             <div class="col-auto">
                 <BranchesSettings />
@@ -60,7 +77,7 @@ export default {
                 v-for="branch in getBranches"
                 :key="branch.id"
             >
-                <BranchCard :branch="branch" />
+                <BranchCard :branch="branch" @fetch-branches="fetchBranches"/>
             </div>
         </div>
     </div>

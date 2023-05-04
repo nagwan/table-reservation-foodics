@@ -49,7 +49,7 @@ export default {
             :name="name + ` radio-input-` + value"
             @change="$emit('update-value', { value: $event.target.value })"
         />
-        <div class="text-center border-primary-50 p-10 radius-8 cursor-pointer text-primary-regular">
+        <div class="text-center text-primary-50 border-primary-50 p-10 radius-8 cursor-pointer text-primary-regular">
 
             <span class="m-l-6">{{ label }}</span>
         </div>

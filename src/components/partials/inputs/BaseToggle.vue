@@ -19,15 +19,15 @@ export default {
 };
 </script>
 <template>
-    <label class="switch" :for="name + '_' + value">
+    <label class="switch" :for="name">
         <input
             :name="name"
-            :id="name + '_' + value"
+            :id="name"
             type="checkbox"
             :checked="value"
             @change="$emit('update-value', { value: $event.target.value })"
         />
-        <span class="slider round"></span>
+        <span class="slider round" :class="{ checked: value }"></span>
     </label>
 </template>
 <style scoped lang='sass'>
@@ -50,7 +50,10 @@ export default {
   background-color: #ccc
   -webkit-transition: .4s
   transition: .4s
-
+  &.round
+    border-radius: 34px
+  &.round:before
+    border-radius: 50%
   &:before
     position: absolute
     content: ""
@@ -61,21 +64,12 @@ export default {
     background-color: white
     -webkit-transition: .4s
     transition: .4s
-
-  input:checked + &
-    background-color: #f06a00
-
-  input:focus + &
-    box-shadow: 0 0 1px #f06a00
-  input:checked + &:before
+.checked
+  background-color: #f06a00
+.checked
+  &:before
     -webkit-transform: translateX(26px)
     -ms-transform: translateX(26px)
     transform: translateX(26px)
     left: 8px
-
-  &.round
-    border-radius: 34px
-
-  &.round:before
-    border-radius: 50%
 </style>

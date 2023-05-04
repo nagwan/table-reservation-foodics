@@ -7,6 +7,7 @@ export default async function fetchData({
       method,
       data,
       params,
+      'data-raw': data,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',

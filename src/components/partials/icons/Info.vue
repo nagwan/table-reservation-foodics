@@ -32,10 +32,4 @@ export default {
         />
     </svg>
 </template>
-<style scoped lang='sass'>
-svg
-    &:hover
-        path
-            fill: #f06a00 !important
-
-</style>
+<style scoped lang='sass'></style>
