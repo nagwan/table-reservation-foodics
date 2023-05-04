@@ -3,18 +3,21 @@ import API from '@/utils/API';
 import BranchCard from './BranchCard.vue';
 import BranchesFilter from './BranchesFilter.vue';
 import BranchesSettings from './BranchesSettings.vue';
+import AddBranch from './AddBranch.vue';
 
 export default {
   components: {
     BranchCard,
     BranchesFilter,
     BranchesSettings,
+    AddBranch,
   },
   props: {},
   data() {
     return {
       branches: [],
       pagination: {},
+      showForm: false,
       selectedFilterValue: 'accepts_reservations',
     };
   },
@@ -50,14 +53,76 @@ export default {
       this.pagination = data.meta;
     },
 
+    disableAllBranchesReservations() {
+      /**
+             * it would be better if there is an API takes an array of ids and update all of them with one request
+             */
+      this.branches.forEach((branch) => {
+        if (branch.accepts_reservations) {
+          this.updateBranchReservations({
+            branchId: branch.id,
+            value: false,
+          });
+        }
+      });
+
+      this.fetchBranches();
+    },
+
+    async updateBranchReservations({ branchId, value, refetch }) {
+      /**
+             * the API is not updating the branch reservation status
+             */
+      await API({
+        url: `branches/${branchId}`,
+        method: 'PUT',
+        data: {
+          accepts_reservations: value,
+        },
+      });
+
+      if (refetch) {
+        this.fetchBranches();
+      }
+    },
+
+    toggleForm() {
+      this.showForm = !this.showForm;
+    },
+
     updateBranchesFilterValue({ value }) {
       this.selectedFilterValue = value;
+    },
+
+    addBranches({ branches }) {
+      /**
+             * As mention in the bulk disable reservation case
+             * it would be better if the API accepts an array of branches ids
+             * and update all of them in one request
+             */
+      branches.forEach((branch) => {
+        this.updateBranchReservations({
+          branchId: branch,
+          value: true,
+        });
+      });
+
+      this.showForm = false;
+      this.fetchBranches();
     },
   },
 };
 </script>
 <template>
     <div class="w-100">
+        <transition name="fade">
+            <AddBranch
+                v-if="showForm"
+                :branches="branches"
+                @hide-form="toggleForm"
+                @add-branches="addBranches"
+            />
+        </transition>
         <div
             class="m-y-20 d-flex flex-wrap align-items-center justify-content-between"
         >
@@ -68,7 +133,12 @@ export default {
                 />
             </div>
             <div class="col-auto">
-                <BranchesSettings />
+                <BranchesSettings
+                    @add-branch="toggleForm"
+                    @disable-all-branches-reservations="
+                        disableAllBranchesReservations
+                    "
+                />
             </div>
         </div>
         <div class="w-100 d-flex flex-wrap">
@@ -77,7 +147,13 @@ export default {
                 v-for="branch in getBranches"
                 :key="branch.id"
             >
-                <BranchCard :branch="branch" @fetch-branches="fetchBranches" />
+                <BranchCard
+                    :branch="branch"
+                    @update-reservation="
+                        (args) =>
+                            updateBranchReservations({ refetch: true, ...args })
+                    "
+                />
             </div>
         </div>
     </div>

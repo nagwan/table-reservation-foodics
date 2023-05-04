@@ -1,5 +1,4 @@
 <script>
-import API from '@/utils/API';
 import BaseToggle from '../partials/inputs/BaseToggle.vue';
 import Edit from '../partials/icons/Edit.vue';
 import BaseModal from '../partials/BaseModal.vue';
@@ -20,6 +19,22 @@ export default {
     branch: {
       type: Object,
       required: true,
+    },
+    enableEdit: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    enableConfirmation: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+
+    isSelected: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
@@ -45,25 +60,25 @@ export default {
       this.$emit('edit-branch', { id: this.branch.id });
     },
 
-    async disableBranchReservations() {
-      /**
-             * the API is not really updating the branch reservation status
-             */
-      await API({
-        url: `branches/${this.branch.id}`,
-        method: 'PUT',
-        data: {
-          accepts_reservations: !this.branch.accepts_reservations,
-        },
-      });
-
+    disableBranchReservations() {
       this.$emit('fetch-branches');
 
       this.togglePopup();
     },
 
+    updateReservation() {
+      this.$emit('update-reservation', {
+        branchId: this.branch.id,
+        value: !this.branch.accepts_reservations,
+      });
+    },
+
     togglePopup() {
-      this.showConfirmationPopup = !this.showConfirmationPopup;
+      if (this.enableConfirmation) {
+        this.showConfirmationPopup = !this.showConfirmationPopup;
+      } else {
+        this.updateReservation();
+      }
     },
   },
 };
@@ -75,7 +90,7 @@ export default {
                 title="Update Branch Reservation"
                 v-if="showConfirmationPopup"
                 @cancel="togglePopup"
-                @confirm="disableBranchReservations"
+                @confirm="updateReservation"
             >
                 <p class="text-primary-regular">
                     Are you sure you want to update the reservation settings for
@@ -89,7 +104,6 @@ export default {
             </p>
             <div class="d-flex align-items-center m-y-20">
                 <Building color="#f06a00" />
-
                 <p class="text-primary-medium m-x-4">Branch Reference:</p>
                 <p class="text-primary-semi-bold text-secondary-50 m-x-4">
                     {{ branch.reference }}
@@ -116,11 +130,12 @@ export default {
                 class="d-flex align-items-center justify-content-end branch-actions m-t-30"
             >
                 <Edit
+                    v-if="enableEdit"
                     class="m-x-10 cursor-pointer"
                     @click.native="editBranchSettings()"
                 />
                 <BaseToggle
-                    :value="branch.accepts_reservations"
+                    :value="branch.accepts_reservations || isSelected"
                     :name="'branch-reservation' + '-' + branch.id"
                     @update-value="togglePopup"
                 />
@@ -130,9 +145,9 @@ export default {
 </template>
 <style  lang='sass'>
 .branch-card
-  height: 250px
-  position: relative
-  .branch-actions
+    height: 250px
+    position: relative
+.branch-actions
     position: relative
     bottom: 0
 </style>

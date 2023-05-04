@@ -1,9 +1,9 @@
 <script>
-import BranchesList from './components/branches/Index.vue';
+import Branches from './components/branches/Index.vue';
 
 export default {
   components: {
-    BranchesList,
+    Branches,
   },
   props: {},
   data() {
@@ -15,7 +15,7 @@ export default {
 </script>
 <template>
     <Layout>
-        <BranchesList />
+        <Branches />
     </Layout>
 </template>
 <style scoped lang='sass'>
