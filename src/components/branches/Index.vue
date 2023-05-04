@@ -77,7 +77,7 @@ export default {
                 v-for="branch in getBranches"
                 :key="branch.id"
             >
-                <BranchCard :branch="branch" @fetch-branches="fetchBranches"/>
+                <BranchCard :branch="branch" @fetch-branches="fetchBranches" />
             </div>
         </div>
     </div>

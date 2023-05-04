@@ -3,12 +3,18 @@ import API from '@/utils/API';
 import BaseToggle from '../partials/inputs/BaseToggle.vue';
 import Edit from '../partials/icons/Edit.vue';
 import BaseModal from '../partials/BaseModal.vue';
+import Building from '../partials/icons/Building.vue';
+import Table from '../partials/icons/Table.vue';
+import Clock from '../partials/icons/Clock.vue';
 
 export default {
   components: {
     BaseToggle,
     Edit,
     BaseModal,
+    Building,
+    Table,
+    Clock,
   },
   props: {
     branch: {
@@ -82,20 +88,24 @@ export default {
                 {{ branch.name }}
             </p>
             <div class="d-flex align-items-center m-y-20">
-                <p class="text-primary-medium">Branch Reference:</p>
+                <Building color="#f06a00" />
+
+                <p class="text-primary-medium m-x-4">Branch Reference:</p>
                 <p class="text-primary-semi-bold text-secondary-50 m-x-4">
                     {{ branch.reference }}
                 </p>
             </div>
 
             <div class="d-flex align-items-center m-y-20">
-                <p class="text-primary-medium">Available Tables:</p>
+                <Table color="#f06a00" />
+                <p class="text-primary-medium m-x-4">Available Tables:</p>
                 <p class="text-primary-semi-bold text-secondary-50 m-x-4">
                     {{ getTablesCount }}
                 </p>
             </div>
 
             <div class="d-flex align-items-center">
+                <Clock color="#f06a00" />
                 <p class="text-primary-medium">Reservation Duration:</p>
                 <p class="text-primary-semi-bold text-secondary-50 m-x-4">
                     {{ branch.reservation_duration }}

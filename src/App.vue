@@ -1,5 +1,5 @@
 <script>
-import BranchesList from './components/branches-reservation/Index.vue';
+import BranchesList from './components/branches/Index.vue';
 
 export default {
   components: {

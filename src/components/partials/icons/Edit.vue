@@ -33,5 +33,5 @@ export default {
 svg
     &:hover
         path
-            fill: #f06a00 !important
+            fill: #c73662 !important
 </style>
