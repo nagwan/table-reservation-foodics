@@ -5,6 +5,7 @@ import BaseModal from '../partials/BaseModal.vue';
 import Building from '../partials/icons/Building.vue';
 import Table from '../partials/icons/Table.vue';
 import Clock from '../partials/icons/Clock.vue';
+import UpdateBranch from './UpdateBranch.vue';
 
 export default {
   components: {
@@ -14,6 +15,7 @@ export default {
     Building,
     Table,
     Clock,
+    UpdateBranch,
   },
   props: {
     branch: {
@@ -41,6 +43,7 @@ export default {
     return {
       showConfirmationPopup: false,
       showBranchSettingsForm: false,
+      showUpdateForm: false,
     };
   },
   computed: {
@@ -56,10 +59,6 @@ export default {
     },
   },
   methods: {
-    editBranchSettings() {
-      this.$emit('edit-branch', { id: this.branch.id });
-    },
-
     updateReservation() {
       this.$emit('update-reservation', {
         branchId: this.branch.id,
@@ -78,11 +77,28 @@ export default {
         this.updateReservation();
       }
     },
+
+    refetchBranches() {
+      this.$emit('refetch-branches');
+    },
+
+    toggleForm() {
+      this.showUpdateForm = !this.showUpdateForm;
+    },
   },
 };
 </script>
 <template>
     <div class="w-100">
+        <transition name="fade">
+            <UpdateBranch
+                v-if="showUpdateForm"
+                :branch="branch"
+                @hide-form="toggleForm"
+                @changes-saved="refetchBranches"
+            />
+        </transition>
+
         <transition name="fade">
             <BaseModal
                 title="Update Branch Reservation"
@@ -130,7 +146,7 @@ export default {
                 <Edit
                     v-if="enableEdit"
                     class="m-x-10 cursor-pointer"
-                    @click.native="editBranchSettings()"
+                    @click.native="toggleForm()"
                 />
                 <BaseToggle
                     :value="branch.accepts_reservations || isSelected"

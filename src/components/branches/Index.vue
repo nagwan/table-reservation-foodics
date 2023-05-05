@@ -180,6 +180,7 @@ export default {
             >
                 <BranchCard
                     :branch="branch"
+                    @refetch-branches="fetchBranches"
                     @update-reservation="
                         (args) =>
                             updateBranchReservations({ refetch: true, ...args })
