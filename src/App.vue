@@ -1,28 +1,27 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import Branches from './components/branches/Index.vue';
+import BaseAlert from './components/partials/BaseAlert.vue';
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld,
+    Branches,
+    BaseAlert,
   },
+  props: {},
+  data() {
+    return {};
+  },
+  computed: {},
+  methods: {},
 };
 </script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<template>
+    <Layout>
+        <Branches />
+        <transition name="fadeInDown">
+            <BaseAlert v-if="$root.showAlert" :type="$root.alertType" :message="$root.alertMessage" />
+        </transition>
+    </Layout>
+</template>
+<style scoped lang='sass'>
 </style>

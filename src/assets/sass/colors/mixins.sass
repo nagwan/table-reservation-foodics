@@ -1,0 +1,16 @@
+@import "./variables"
+$colors: (primary: (100: $primary-100, 90: $primary-90, 80: $primary-80, 70: $primary-70, 60: $primary-60, 50: $primary-50, 40: $primary-40, 30: $primary-30, 20: $primary-20, 10: $primary-10), secondary: (100: $secondary-100, 90: $secondary-90, 80: $secondary-80, 70: $secondary-70, 60: $secondary-60, 50: $secondary-50, 40: $secondary-40, 30: $secondary-30, 20: $secondary-20, 10: $secondary-10),neutral: (100: $neutral-100, 90: $neutral-90, 80: $neutral-80, 70: $neutral-70, 60: $neutral-60, 50: $neutral-50, 40: $neutral-40, 30: $neutral-30, 20: $neutral-20, 10: $neutral-10),success: (100: $success-100, 80: $success-80, 60: $success-60, 20:$success-20),warning: (100: $warning-100, 60: $warning-60, 20: $warning-20),danger: (100: $danger-100, 80: $danger-80, 60: $danger-60, 20: $danger-20),info: (100: $info-100, 60: $info-60, 20: $info-20))
+
+@each $color-key, $color-value in $colors
+    @each $tone-key, $tone-value in $color-value
+        .bg-#{$color-key}-#{$tone-key}
+            background-color: $tone-value 
+        .text-#{$color-key}-#{$tone-key}
+            color: $tone-value 
+        .border-#{$color-key}-#{$tone-key}
+            border: 1px solid $tone-value 
+
+.text-white
+    color: #fff
+.bg-white
+    background: #fff 
