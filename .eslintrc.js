@@ -22,5 +22,6 @@ module.exports = {
     'vue/prop-name-casing': ['error', 'camelCase'],
     'vue/name-property-casing': ['error', 'PascalCase'],
     'max-len': 'off',
+    'vuejs-accessibility/label-has-for': 'off',
   },
 };
