@@ -2,7 +2,6 @@
 import API from '@/utils/API';
 import BaseSideBar from '../partials/BaseSideBar.vue';
 import BaseInput from '../partials/inputs/BaseInput.vue';
-import Errors from '../../services/Errors';
 import BaseCheckbox from '../partials/inputs/BaseCheckbox.vue';
 import BaseEmptyStatus from '../partials/BaseEmptyStatus.vue';
 import metadata from './data';
@@ -41,7 +40,6 @@ export default {
           friday: [],
         },
       },
-      errors: new Errors({}),
     };
   },
   computed: {
