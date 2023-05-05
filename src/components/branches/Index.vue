@@ -180,6 +180,7 @@ export default {
             >
                 <BranchCard
                     :branch="branch"
+                    :enableEdit="branch.accepts_reservations"
                     @refetch-branches="fetchBranches"
                     @update-reservation="
                         (args) =>
