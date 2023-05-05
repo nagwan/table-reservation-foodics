@@ -17,11 +17,11 @@ export default async function fetchData({
   );
 
   if (response.ok) {
-    return response.json();
+    return { status: response.status, data: await response.json() };
   }
   /**
      * we return the errors object, in case any module needs custom error handling,
      * but for global errors has to be handled here to avoid duplication
      */
-  return { status: response.status, message: response.statusText };
+  return { status: response.status, data: { message: response.statusText } };
 }

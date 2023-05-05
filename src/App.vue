@@ -18,7 +18,7 @@ export default {
 <template>
     <Layout>
         <Branches />
-        <transition name="fade">
+        <transition name="fadeInDown">
             <BaseAlert v-if="$root.showAlert" :type="$root.alertType" :message="$root.alertMessage" />
         </transition>
     </Layout>

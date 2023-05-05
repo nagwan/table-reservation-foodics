@@ -5,8 +5,17 @@ import Layout from './layouts/Default.vue';
 
 Vue.config.productionTip = false;
 
+/**
+ * as this is the default Layout,
+ * so it supposed to be used in all over the application,
+ * importing it on every view level will be a bit verbose, so instead
+ * it is better to register it globally
+ */
 Vue.component('Layout', Layout);
 
+/**
+ * Vue fancy way to stop event propagation
+ */
 Vue.directive('click-outside', {
   bind(el, binding, vnode) {
     document.body.addEventListener('click', (e) => {
@@ -19,6 +28,13 @@ Vue.directive('click-outside', {
   },
 });
 
+/**
+ * this is a global toast for tracking API response,
+ * in a real work app this has to be in the store,
+ * and updated via axios interceptors,
+ * but as this is a simple one page app,
+ * we instead depend on the $root state.
+ */
 new Vue({
   data: {
     showAlert: false,
@@ -27,7 +43,7 @@ new Vue({
   },
 
   methods: {
-    toggleAlert({ type, message, timer = 3000 }) {
+    toggleAlert({ type, message, timer = 2000 }) {
       this.showAlert = true;
       this.alertType = type;
       this.alertMessage = message;

@@ -5,6 +5,7 @@ import BranchesFilter from './BranchesFilter.vue';
 import BranchesSettings from './BranchesSettings.vue';
 import AddBranch from './AddBranch.vue';
 import Loader from './Loader.vue';
+import BaseEmptyStatus from '../partials/BaseEmptyStatus.vue';
 
 export default {
   components: {
@@ -13,6 +14,7 @@ export default {
     BranchesSettings,
     AddBranch,
     Loader,
+    BaseEmptyStatus,
   },
   props: {},
   data() {
@@ -49,12 +51,21 @@ export default {
   methods: {
     async fetchBranches() {
       this.isLoading = true;
-      const data = await API({
+      const { data, status } = await API({
         url: 'branches?include[0]=sections&include[1]=sections.tables',
       });
+
+      if (status !== 200) {
+        this.$root.toggleAlert({
+          type: 'error',
+          message: data.message,
+        });
+      } else {
+        this.branches = data.data;
+        this.pagination = data.meta;
+      }
+
       this.isLoading = false;
-      this.branches = data.data;
-      this.pagination = data.meta;
     },
 
     disableAllBranchesReservations() {
@@ -79,14 +90,16 @@ export default {
              */
       await API({
         url: `branches/${branchId}`,
-        method: 'put',
+        method: 'PUT',
         data: {
           accepts_reservations: value,
         },
       });
 
-      this.$root.toggleAlert({ type: 'success', message: 'test' });
-
+      /**
+             * this does not make sense in our case as the API
+             * is not actually updating values
+             */
       if (refetch) {
         this.fetchBranches();
       }
@@ -129,6 +142,7 @@ export default {
                 @add-branches="addBranches"
             />
         </transition>
+
         <div
             class="m-y-20 d-flex flex-wrap align-items-center justify-content-between"
         >
@@ -147,8 +161,18 @@ export default {
                 />
             </div>
         </div>
+
         <loader v-if="isLoading" />
-        <div class="w-100 d-flex flex-wrap" v-else>
+
+        <BaseEmptyStatus
+            class="m-t-50"
+            v-else-if="!isLoading && !branches.length"
+        />
+
+        <div
+            class="w-100 d-flex flex-wrap"
+            v-else-if="!isLoading && branches.length"
+        >
             <div
                 class="col-12 col-md-4 m-y-20"
                 v-for="branch in getBranches"

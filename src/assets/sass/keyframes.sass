@@ -4,6 +4,19 @@
 
   100%
     background-position: 1000px 0
+  
+@keyframes fadeInDown
+  from
+    opacity: 0
+    -webkit-transform: translate3d(0, -100%, 0)
+    transform: translate3d(0, -100%, 0)
+
+  to
+    opacity: 1
+    -webkit-transform: translate3d(0, 0, 0)
+    transform: translate3d(0, 0, 0)
+
+
 
 .fade-enter-active, .fade-leave-active
   -webkit-transition: opacity .5s
@@ -26,3 +39,13 @@
   -o-animation: shimmer 2s infinite linear
   -moz-animation: shimmer 2s infinite linear
   animation: shimmer 2s infinite linear
+
+.fadeInDown-enter-active
+  animation: fadeInDown .5s
+.fadeInDown-leave-active
+  transition: all .2s ease-in-out
+.fadeInDown-enter,
+.fadeInDown-leave-to
+  transform: translateY(10px)
+  opacity: 0
+
