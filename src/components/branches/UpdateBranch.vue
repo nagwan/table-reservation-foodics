@@ -2,7 +2,6 @@
 import API from '@/utils/API';
 import BaseSideBar from '../partials/BaseSideBar.vue';
 import BaseInput from '../partials/inputs/BaseInput.vue';
-import Errors from '../../services/Errors';
 import BaseCheckbox from '../partials/inputs/BaseCheckbox.vue';
 import BaseEmptyStatus from '../partials/BaseEmptyStatus.vue';
 import metadata from './data';
@@ -41,14 +40,19 @@ export default {
           friday: [],
         },
       },
-      errors: new Errors({}),
     };
   },
   computed: {
     getTables() {
       let tables = [];
       this.branch.sections.forEach((section) => {
-        tables = [...tables, ...section.tables];
+        tables = [
+          ...tables,
+          ...section.tables.map((table) => ({
+            ...table,
+            name: `${section.name}-${table.name}`,
+          })),
+        ];
       });
 
       return tables;
@@ -81,7 +85,9 @@ export default {
     },
 
     applySatSlotsToAllDays() {
-      const staValues = JSON.stringify(this.form.reservation_times.saturday);
+      const staValues = JSON.stringify(
+        this.form.reservation_times.saturday,
+      );
       Object.keys(this.form.reservation_times).forEach((day) => {
         this.form.reservation_times[day] = JSON.parse(staValues);
       });
@@ -194,8 +200,16 @@ export default {
                 <div class="bg-neutral-10 p-10 radius-4 d-flex flex-wrap">
                     <div class="w-100 d-flex justify-content-end">
                         <button
+                            :disabled="
+                                form.reservation_times[day.value].length === 3
+                            "
+                            :class="[
+                                form.reservation_times[day.value].length === 3
+                                    ? 'disabled'
+                                    : 'cursor-pointer',
+                            ]"
                             @click="addSlot({ day: day.value })"
-                            class="d-flex align-items-center border-secondary-50 radius-8 cursor-pointer"
+                            class="d-flex align-items-center border-secondary-50 radius-8"
                         >
                             <Plus color="#c73662" />
                         </button>
@@ -241,5 +255,5 @@ export default {
 </template>
 <style scoped lang='sass'>
 .slot-container
-    width: 185px
+  width: 185px
 </style>
