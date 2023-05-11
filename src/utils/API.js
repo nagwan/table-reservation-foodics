@@ -1,20 +1,22 @@
 export default async function fetchData({
   url, method = 'get', params = {}, data = {},
 }) {
-  const response = await fetch(
-    `/${process.env.VUE_APP_API_VERSION}/${url}`,
-    {
-      method,
-      data,
-      params,
-      'data-raw': data,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${process.env.VUE_APP_AUTH_TOKEN}`,
-      },
+  const options = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${process.env.VUE_APP_AUTH_TOKEN}`,
     },
-  );
+  };
+
+  if (method.toLowerCase() === 'get') {
+    options.params = params;
+  } else {
+    options.body = JSON.stringify(data);
+  }
+
+  const response = await fetch(`/${process.env.VUE_APP_API_VERSION}/${url}`, options);
 
   if (response.ok) {
     return { status: response.status, data: await response.json() };
